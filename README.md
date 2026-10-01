@@ -13,8 +13,8 @@ The following generator estimators can be selected in the notebook:
 - `DA`: diagonal adjustment
 - `WA`: Weighted Adjustment
 - `PA`: polynomial adjustment
-- `CWO`: Component-Wise Optimization - not working
-- `QOG`: Quasi-optimization of the Generator - not working
+- `CWO`: Component-Wise Optimization
+- `QOG`: Quasi-optimization of the Generator
 - `KL`: Kalbfleisch and Lawless estimator from deeptime package
 - `CVE`:  Crommelin and Vanden-Eijnden estimator from deeptime package
 - `MLE-pi`: maximum-likelihood estimator with a fixed free-energy profile
