@@ -28,7 +28,7 @@ Create the Conda environment:
 conda env create -f QGEN.yml
 conda activate QGEN
 
-## Compile PHSM
+# Compile PHSM
 
 Compile PHSM before running the notebook:
 
@@ -98,8 +98,8 @@ phsm.smooth.status
 
 The notebook also plots:
 
-- free-energy profiles for all lag times
-- diffusion profiles for all lag times
+- free-energy profiles for lag times
+- diffusion profiles
 - MFPT using FE and 1D diffusion versus lag
 - Poisson MFPT versus lag
 
@@ -109,3 +109,6 @@ PHSM assignments equal to `-1` are treated as trajectory separators. Transitions
 
 
 ## References
+- Moradi, M. et al. Atomic-level characterization of transport cycle thermodynamics in the glycerol-3-phosphate:phosphate antiporter. Nat. Commun. 6:8393 doi: 10.1038/ncomms9393 (2015)
+- Goolsby, C. et al. Addressing the Embeddability Problem in Transition Rate Estimation, J. Phys. Chem. A (2023) 127 (27): 5745–5759. doi:10.1021/acs.jpca.3c01367
+- Fakharzadeh, A. et al. Free energy, diffusion, and transition rate estimations from along-the-path molecular simulations
