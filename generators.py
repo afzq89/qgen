@@ -603,7 +603,7 @@ def QOG(matrix, tau=1, k=0, epsilon=eps, maxIterations=maxIters):
 
 #######################################
 ## QP estimator adapted by Yuchen Xu
-# JPCA 2023
+# JPCA 2023; This is the same as CVE algorithm
 #######################################
 def qp_rate(matrix, tau):
     matrix = normalizeMatrix(matrix, 0)
