@@ -6,7 +6,7 @@ from mfpt import MFPT_from_Generator_M2, MFPT_from_Generator_Dgeo, MFPT_from_Gen
 from mfpt import MFPT_from_Generator_Djump, MFPT_from_Generator_Poisson
 from mfpt import timescales_from_Q, stationary_distribution_from_Generator
 from count import countMatrix, bootstrap_trajectories
-from generators import diagonalAdjustment, MLE, polySolver2, polySolver4
+from generators import diagonalAdjustment, MLE, polySolver2, polySolver4, CWO, QOG, weightedAdjustment
 
 import warnings
 warnings.filterwarnings(
@@ -68,9 +68,9 @@ def estimatorFunction(args):
                     Q = diagonalAdjustment(Nmat, lag*dt_)
                 elif estimator == 'WA':
                     Q = weightedAdjustment(Nmat, lag*dt_)
-                elif estiamtor == 'CWO':
+                elif estimator == 'CWO':
                     Q = CWO(Nmat, lag*dt_)
-                elif estiamtor == 'QOG': 
+                elif estimator == 'QOG': 
                     Q = QOG(Nmat, lag*dt_)
                 elif estimator == 'PA':
                     Q = polySolver2(Nmat, lag*dt_, LogMethod='safelog')

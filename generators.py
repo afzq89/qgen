@@ -3,6 +3,7 @@
 import numpy as np
 #from qpsolvers import solve_qp
 #from scipy import optimize 
+import scipy as scp
 
 
 # The logarithm is divided by the (physical) lag time to obtain a generator, so a loose
@@ -542,8 +543,8 @@ def CWO(matrix, tau=1, k=0, epsilon=eps, maxIterations=maxIters):
                 if Q[i, j] > 1e-10:
                     calculations += 1
                     # Run an optimization on the given entry with Q[i,j] as the initial guess.
-                    optimalVal = optimize.fmin(optimizeFunc, Q[i, j], args=(i, j, Q, matrix),
-                                                maxiter=200, full_output=False, disp=False)
+                    optimalVal = scp.optimize.fmin(optimizeFunc, x0=Q[i, j], args=(i, j, Q, matrix),maxiter=200, full_output=False, disp=False)
+                    #optimalVal = optimize.fmin(optimizeFunc, Q[i, j], args=(i, j, Q, matrix),maxiter=200, full_output=False, disp=False)
                     # If fmin returns an iterable (e.g., an array), take the first element.
                     Q[i, j] = optimalVal[0] if hasattr(optimalVal, '__iter__') else optimalVal
     return Q

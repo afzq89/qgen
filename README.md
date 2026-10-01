@@ -13,8 +13,8 @@ The following generator estimators can be selected in the notebook:
 - `DA`: diagonal adjustment
 - `WA`: Weighted Adjustment
 - `PA`: polynomial adjustment
-- `CWO`: Component-Wise Optimization
-- `QOG`: Quasi-optimization of the Generator
+- `CWO`: Component-Wise Optimization - not working
+- `QOG`: Quasi-optimization of the Generator - not working
 - `KL`: Kalbfleisch and Lawless estimator from deeptime package
 - `CVE`:  Crommelin and Vanden-Eijnden estimator from deeptime package
 - `MLE-pi`: maximum-likelihood estimator with a fixed free-energy profile
@@ -45,6 +45,7 @@ An example Müller–Brown demonstration data is provided:
 ```text
 example/colvars.npy
 example/centers2D.txt
+example/fe.err
 ```
 
 The `colvars.npy` stored data as following
@@ -55,6 +56,7 @@ x-coordinate, y-coordinate, weight
 Weights are all initially equal. 
 
 `centers2D.txt` contains the initial pathway.
+`fe.err` contains the free enrgy along the pathway.
 
 ## Running the notebook
 
