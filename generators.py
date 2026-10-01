@@ -212,7 +212,6 @@ def diagonalAdjustment(matrix, tau=1, k=0, epsilon=eps, maxIterations=maxIters, 
 #######################################
 # WA
 #######################################
-
 def weightedAdjustment(matrix, tau=1, k=0, epsilon=0.001, maxIterations=20): #input is ETM or EPM
     #returns Generator
     #take log
