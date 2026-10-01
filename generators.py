@@ -210,6 +210,25 @@ def diagonalAdjustment(matrix, tau=1, k=0, epsilon=eps, maxIterations=maxIters, 
     return logMatrix
 
 #######################################
+# WA
+#######################################
+
+def weightedAdjustment(matrix, tau=1, k=0, epsilon=0.001, maxIterations=20): #input is ETM or EPM
+    #returns Generator
+    #take log
+    logMatrix = isRealLog(normalizeMatrix(matrix, k=k), epsilon=eps, maxIterations=maxIters)/tau
+    #set off diagonals to zero as in DA
+    for i in range(logMatrix.shape[0]):
+        for j in range(logMatrix.shape[0]):
+            if(i!=j and logMatrix[i,j]<0):
+                logMatrix[i,j] = 0
+    absMatrix = abs(np.copy(logMatrix))
+    for i in range(logMatrix.shape[0]):
+        for j in range(logMatrix.shape[0]):
+            matrix[i,j] = logMatrix[i,j] - absMatrix[i,j] * logMatrix[:,i].sum() / absMatrix[:,i].sum()
+    return matrix
+            
+#######################################
 ## MLE with fixed FE
 #######################################
 from scipy.linalg import eigh
