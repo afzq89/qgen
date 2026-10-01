@@ -25,16 +25,20 @@ The existing estimator implementations in `generators.py` and `estimator.py` are
 
 Create the Conda environment:
 
+```text
 conda env create -f QGEN.yml
 conda activate QGEN
+```
 
 # Compile PHSM
 
 Compile PHSM before running the notebook:
 
+```text
 cd phsm
 make
 cd ..
+```
 
 A C++11-compatible compiler is required.
 
