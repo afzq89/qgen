@@ -70,7 +70,7 @@ def estimatorFunction(args):
                     Q = polySolver2(Nmat, lag*dt_, LogMethod='safelog')
                 elif estimator == 'PA-pi':
                     Q = polySolver4(Nmat, lag*dt_, pi=pi_, LogMethod='pseudo')
-                elif estimator == 'MLE':
+                elif estimator == 'MLE-pi':
                     _, Q = MLE(Nmat, FE_, binwidth, kbT, lag*dt_, lam=1e-6, D0=None, disp=False)
                 else:
                     raise ValueError('Unknown Generator!')
