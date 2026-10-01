@@ -66,10 +66,16 @@ def estimatorFunction(args):
                     Q = rate_matrix(Nmat, dt=lag*dt_, method='CVE', pi=None, on_error='raise')
                 elif estimator == 'DA':
                     Q = diagonalAdjustment(Nmat, lag*dt_)
+                elif estimator == 'WA':
+                    Q = weightedAdjustment(Nmat, lag*dt_)
+                elif estiamtor == 'CWO':
+                    Q = CWO(Nmat, lag*dt_)
+                elif estiamtor == 'QOG': 
+                    Q = QOG(Nmat, lag*dt_)
                 elif estimator == 'PA':
                     Q = polySolver2(Nmat, lag*dt_, LogMethod='safelog')
                 elif estimator == 'PA-pi':
-                    Q = polySolver4(Nmat, lag*dt_, pi=pi_, LogMethod='pseudo')
+                    Q = polySolver4(Nmat, lag*dt_, pi=pi_, LogMethod='safelog')
                 elif estimator == 'MLE-pi':
                     _, Q = MLE(Nmat, FE_, binwidth, kbT, lag*dt_, lam=1e-6, D0=None, disp=False)
                 else:
