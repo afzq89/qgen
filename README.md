@@ -2,9 +2,7 @@
 
 This repository provides a simple workflow for estimating along-the-path kinetic and thermodynamic properties from molecular simulation:
 
-An example workflow is demonstrated in `rate_qgen-notebook.ipynb`.
-
-The notebook is currently using unbiased simulation data. 
+An example workflow is demonstrated in `rate_qgen-notebook.ipynb`. This notebook uses unbiased simulation data. 
 
 ## Available rate estimators 
 
