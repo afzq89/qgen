@@ -227,7 +227,7 @@ def weightedAdjustment(matrix, tau=1, k=0, epsilon=0.001, maxIterations=20): #in
         for j in range(logMatrix.shape[0]):
             matrix[i,j] = logMatrix[i,j] - absMatrix[i,j] * logMatrix[:,i].sum() / absMatrix[:,i].sum()
     return matrix
-            
+
 #######################################
 ## MLE with fixed FE
 #######################################
@@ -622,7 +622,8 @@ def QOG(matrix, tau=1, k=0, epsilon=eps, maxIterations=maxIters):
 
 #######################################
 ## QP estimator adapted by Yuchen Xu
-# JPCA 2023; This is the same as CVE algorithm
+# JPCA 2023; This is the essentially the 
+# same as CVE algorithm
 #######################################
 def qp_rate(matrix, tau):
     matrix = normalizeMatrix(matrix, 0)

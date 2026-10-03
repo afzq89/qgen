@@ -6,7 +6,7 @@ from mfpt import MFPT_from_Generator_M2, MFPT_from_Generator_Dgeo, MFPT_from_Gen
 from mfpt import MFPT_from_Generator_Djump, MFPT_from_Generator_Poisson
 from mfpt import timescales_from_Q, stationary_distribution_from_Generator
 from count import countMatrix, bootstrap_trajectories
-from generators import diagonalAdjustment, MLE, polySolver2, polySolver4, CWO, QOG, weightedAdjustment
+from generators import diagonalAdjustment, MLE, polySolver2, polySolver4, CWO, QOG, weightedAdjustment, MLE_biased
 
 import warnings
 warnings.filterwarnings(
@@ -23,7 +23,10 @@ def estimatorFunction(args):
       - Return results for this single bootstrap
     """
     i, valid_trajs, block_length, lag, dt_, unit_phys, r, tang, NSTATE, First, Second, estimator, FE_, kbT, stride_k = args[:15]
-    guessD0 = args[15] if len(args) > 15 else None
+    if estimator == 'MLE-biased':
+        NWIN, F_list_fixed, fullD0 = args[15:]
+    else:
+        guessD0 = args[15] if len(args) > 15 else None
 
     if FE_ is not None:
        pi_ = np.exp(-(FE_ - FE_.min()) / kbT)
@@ -44,10 +47,22 @@ def estimatorFunction(args):
 
     try:
         # Draw one bootstrap sample and keep it fixed if the solver is retried
-        md_dtrajs_boot = bootstrap_trajectories(valid_trajs, block_length)
+        if estimator == 'MLE-biased':
+            C_list = []
+            F_list = []
+            for w in range(NWIN):
+                trajs_w = valid_trajs.get(w, [])
+                if not trajs_w:
+                    continue
+                boot_trajs = bootstrap_trajectories(trajs_w, block_length)
+                C_w = countMatrix(boot_trajs, lag, n_states=NSTATE, mode="sliding", stride=None)
+                C_list.append(C_w)
+                F_list.append(F_list_fixed[w])
+        else:
+            md_dtrajs_boot = bootstrap_trajectories(valid_trajs, block_length)
 
-        # Build the count matrix
-        Nmat = countMatrix(md_dtrajs_boot, lag, n_states=NSTATE, mode="sliding", stride=None)
+            # Build the count matrix
+            Nmat = countMatrix(md_dtrajs_boot, lag, n_states=NSTATE, mode="sliding", stride=None)
     except Exception as e:
         print(f"Warning: Bootstrap {i} could not be constructed. Skipping. Error: {e}")
         return fe_results, mfpt_results, D_results
@@ -78,6 +93,8 @@ def estimatorFunction(args):
                     Q = polySolver4(Nmat, lag*dt_, pi=pi_, LogMethod='safelog')
                 elif estimator == 'MLE-pi':
                     _, Q = MLE(Nmat, FE_, binwidth, kbT, lag*dt_, lam=1e-6, D0=None, disp=False)
+                elif estimator == 'MLE-biased':
+                    _, Q = MLE_biased(C_list, F_list, binwidth, kbT, lag*dt_, FE_, lam=1e-6, D0=fullD0)
                 else:
                     raise ValueError('Unknown Generator!')
             #Q = validateGenerator(Q)

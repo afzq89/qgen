@@ -551,6 +551,55 @@ def stationary_distribution_from_FE(F, kbT=1.0):
     pi = weights / np.sum(weights)
     return pi
 
+# effective bias used for MLE-biased
+def effective_bias(raw, pot_file, n_states, n_windows, kbT):
+    """State-integrated umbrella biases using the unbiased npwham weights."""
+    valid = ((raw[:, 1] >= 0) & (raw[:, 1] < n_windows) &
+             (raw[:, 3] >= 0) & (raw[:, 3] < n_states))
+    data = raw[valid]
+    keys = data[:, [1, 2, 0]].astype(np.int64)
+    states = data[:, 3].astype(int)
+    weights = data[:, -1]
+
+    if len(keys) == 0 or np.any(~np.isfinite(weights)) or np.any(weights <= 0):
+        raise ValueError("No valid positive npwham weights were found in the cluster file.")
+
+    denominator = np.bincount(states, weights=weights, minlength=n_states)
+    numerator = np.zeros((n_windows, n_states))
+    matched = 0
+
+    with open(pot_file) as f:
+        for line_number, line in enumerate(f, 1):
+            values = np.fromstring(line, sep=' ')
+            if values.size < 3 + n_windows:
+                continue
+
+            key = (int(values[0]), int(values[1]), int(values[2]))
+            target = tuple(keys[matched])
+            if key < target:
+                continue
+            if key > target:
+                raise ValueError(
+                    f"Cluster/potential mismatch before pot.txt line {line_number}: "
+                    f"expected {target}, found {key}.")
+
+            state = states[matched]
+            weight = weights[matched]
+            potentials = values[3:3 + n_windows]
+            numerator[:, state] += weight * np.exp(-potentials / kbT)
+            matched += 1
+            if matched == len(keys):
+                break
+
+    if matched != len(keys):
+        raise ValueError(f"Matched only {matched} of {len(keys)} cluster rows to pot.txt.")
+    if np.any(denominator <= 0) or np.any(numerator <= 0):
+        raise ValueError("The effective umbrella bias is undefined for one or more states.")
+
+    bias = -kbT * np.log(numerator / denominator[None, :])
+    bias -= bias.min(axis=1, keepdims=True)
+    return bias
+
 #######################################
 ## for tests purposes
 #######################################
