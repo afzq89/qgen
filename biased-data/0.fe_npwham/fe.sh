@@ -38,5 +38,5 @@ rm -rf pot.txt
 fi
 
 l=`wc pot.txt | awk '{print $1}'`
-../../../../npwham.0/npwham -w $ni -l $l -t $temp -i 1000 -b $nc -B 1 < pot.txt > density.txt 2> density.err
+../../npwham.0/npwham -w $ni -l $l -t $temp -i 1000 -b $nc -B 1 < pot.txt > density.txt 2> density.err
 tail -$ni density.err | awk '{print $3,$4,$5}' > fe.txt
