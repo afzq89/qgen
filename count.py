@@ -1,6 +1,7 @@
 import numpy as np
 
-# Inspired by deeptime
+# Partially adapted from deeptime
+# (https://github.com/deeptime-ml/deeptime)
 
 def countMatrix(dtrajs, lag, n_states=None, mode="sliding", stride=None):
     """
