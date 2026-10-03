@@ -30,12 +30,20 @@ conda env create -f QGEN.yml
 conda activate QGEN
 ```
 
-# Compile PHSM
+# Compile PHSM and NPWHAM
 
 Compile PHSM before running the notebook:
 
 ```text
 cd phsm
+make
+cd ..
+```
+
+to compile NPWHAM:
+
+```text
+cd npwham
 make
 cd ..
 ```
